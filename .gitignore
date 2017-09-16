@@ -43,3 +43,4 @@ _config.dev.yml
 *.gem
 .Rproj.user
 special_topics_in_r.Rproj
+.Rhistory
