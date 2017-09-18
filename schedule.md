@@ -8,8 +8,8 @@ sidebar_link: true
 |------|-------|------------|
 |2017-09-15| R Markdown | Harrison Dekker |
 |2017-09-29| Mapping Oceanographic Data | Kris, Aditi, Alexa |
-|2017-10-13| Gene Expression | Jillian, Kevin|
-|2017-10-27| Gene Correlation Network Analysis | Kevin, Erin|
-|2017-11-10| Analyzing Spatial Data| Talya, Katie |
-|2017-11-17| Interpretting RNAseq data| Eric, Sara, Bianca|
-|2017-12-08| Visualizing Longitudinal Data| Dara, Alyssa |
+|2017-10-13| Gene Expression | Jillian, Kevin W, Erin|
+|2017-10-27| Interpretting RNAseq data I | Kevin L, Eric|
+|2017-11-10| Analyzing Spatial Data| Katie |
+|2017-11-17| Interpretting RNAseq data II| Sara, Bianca|
+|2017-12-08| Visualizing Longitudinal Data| Dara, Alissa |
