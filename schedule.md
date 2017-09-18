@@ -15,9 +15,9 @@ sidebar_link: true
 |2017-11-17| Interpretting RNAseq data II| Sara, Bianca|
 |2017-12-08| Visualizing Longitudinal Data| Dara, Alissa |
 
-Other potential topics:
-Quantitative Traits
-Shiny Apps
-Phylogenetic comparative methods
-Multi-sample comparisons
+Other potential topics:  
+Quantitative Traits  
+Shiny Apps  
+Phylogenetic comparative methods  
+Multi-sample comparisons  
 Handling large datasets
