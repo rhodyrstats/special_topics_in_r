@@ -7,9 +7,6 @@ author:
 output: md_document
 layout: post
 ---
-
-# Special Topics in R
-
 The class "BIO 593: Special topics in R" is an outgrowth of the [rhodyRstats](https://rhodyrstats.org) study group meetings.  In those meetings we had guest speaekers present on a variety of R topics and packages.  Building on this format we will have a few initial class meetings that describe R Markdown and the method for submitting assignments.  The assignments will be worked on in groups and will focus on an R topic of the classes choosing.  Each group will be responsible for developing the materials (as an R Markdown document) and then presenting those materials in class.  Over the first few classes we will introduce R Markdown and how to write up assignments.
 
 For the nitty gritty details of the class, please look at the [syllabus](https://rhodyrstats.github.io/syllabus.html) and the [schedule of presentations](https://rhodyrstats.github.io/schedule.html)
