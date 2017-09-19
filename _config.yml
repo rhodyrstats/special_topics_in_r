@@ -5,7 +5,7 @@ highlighter:      rouge
 # Setup
 title:            "BIO 593 Class Website"
 tagline:          'Special Topics In R'
-description:      'This is the class website for BIO 593: Special Topics in R.  Most class materials live, developed by students, will live here and will cover a variety of topics on using R for data science.'
+description:      'This is the class website for BIO 593: Special Topics in R.  Class materials, developed by students, will live here and will cover a variety of topics on using R for data science.'
 url:              https://rhodyrstats.github.io/special_topics_in_r
 baseurl:          # the optional subpath of your site, e.g. "/blog"
                   # NB: This applies to all pages in your Jekyll site.
