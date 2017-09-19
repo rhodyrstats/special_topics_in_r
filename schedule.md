@@ -8,7 +8,7 @@ sidebar_link: true
 |------|-------|------------|
 |2017-09-15| R Markdown | Harrison Dekker |
 |2017-09-29| Mapping Oceanographic Data | Kris, Aditi, Alexa |
-|2017-10-06| Phylogenetics | Eren|
+|2017-10-06| Something ecology / evolution | Eren, Wendy|
 |2017-10-13| Gene Expression | Jillian, Kevin W, Erin|
 |2017-10-27| Interpretting RNAseq data I | Kevin L, Eric, Das|
 |2017-11-10| Analyzing Spatial Data| Katie, Laura |
@@ -18,6 +18,7 @@ sidebar_link: true
 Other potential topics:  
 Quantitative Traits  
 Shiny Apps  
+Phylogenetics
 Phylogenetic comparative methods  
 Multi-sample comparisons  
 Handling large datasets
