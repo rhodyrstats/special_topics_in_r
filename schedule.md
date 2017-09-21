@@ -8,11 +8,11 @@ sidebar_link: true
 |------|-------|------------|
 |2017-09-15| R Markdown | Harrison Dekker |
 |2017-09-29| Mapping Oceanographic Data | Kris, Aditi, Alexa |
-|2017-10-06| Something ecology / evolution | Eren, Wendy|
 |2017-10-13| Gene Expression | Jillian, Kevin W, Erin|
-|2017-10-27| Interpretting RNAseq data | Kevin L, Eric, Das|
+|2017-10-27| Interpreting RNAseq data | Kevin L, Eric, Das|
 |2017-11-10| Analyzing Spatial Data| Katie, Laura |
 |2017-11-17| Shiny Apps| Sara, Bianca|
+|2017-12-01| Something ecology / evolution | Eren, Wendy|
 |2017-12-08| Visualizing Longitudinal Data| Dara, Alissa |
 
 Other potential topics:  
