@@ -19,5 +19,5 @@ Quantitative Traits
 Phylogenetics
 Phylogenetic comparative methods  
 Multi-sample comparisons  
-Handling large datasets
+Handling large datasets  
 Shiny Apps
