@@ -16,7 +16,7 @@ sidebar_link: true
 
 Other potential topics:  
 Quantitative Traits  
-Phylogenetics
+Phylogenetics  
 Phylogenetic comparative methods  
 Multi-sample comparisons  
 Handling large datasets  
