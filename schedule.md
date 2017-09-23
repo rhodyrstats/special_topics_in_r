@@ -12,7 +12,7 @@ sidebar_link: true
 |2017-10-27| Interpreting RNAseq data | Kevin L, Eric, Dasith|
 |2017-11-10| Analyzing Spatial Data|Laura |
 |2017-12-01| Something ecology / evolution | Eren, Wendy|
-|2017-12-08| Visualizing Longitudinal Data| Dara |
+|2017-12-08| Visualizing Longitudinal Data| Dara, Byron |
 
 Other potential topics:  
 Quantitative Traits  
