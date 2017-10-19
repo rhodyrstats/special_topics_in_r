@@ -1,5 +1,4 @@
-Analysis Using EdgeR
-====================
+## Analysis Using EdgeR
 
 The Data
 --------
@@ -188,7 +187,7 @@ for (i in 2:nsamples){
 legend("topright", mobDataGroups, text.col=col, bty="n")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Figure-1.png)
+![](assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Figure-1.png)
 
 Data Normalization
 ------------------
