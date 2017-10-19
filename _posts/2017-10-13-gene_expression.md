@@ -235,7 +235,7 @@ boxplot(lcpm, las=2, col=col, main="")
 title(main="B. Example: Normalized data",ylab="Log-cpm")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Normalization-1.png)
+![](assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Normalization-1.png)
 
 Data Exploration
 ----------------
