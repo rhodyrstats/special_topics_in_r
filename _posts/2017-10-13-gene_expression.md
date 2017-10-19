@@ -1,4 +1,5 @@
-## Analysis Using EdgeR
+Analysis Using EdgeR
+====================
 
 The Data
 --------
