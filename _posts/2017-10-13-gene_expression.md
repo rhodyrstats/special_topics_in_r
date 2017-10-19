@@ -235,7 +235,7 @@ boxplot(lcpm, las=2, col=col, main="")
 title(main="B. Example: Normalized data",ylab="Log-cpm")
 ```
 
-![](assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Normalization-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Normalization-1.png" | absoulte_url }})
 
 Data Exploration
 ----------------
@@ -247,7 +247,7 @@ plotMDS(d, method="bcv", col=as.numeric(d$samples$group))
 legend("bottomleft", as.character(unique(d$samples$group)), col=1:3, pch=20)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/MDS%20Plot-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/MDS%20Plot-1.png" | absolute_url }})
 
 Estimating the Dispersion
 -------------------------
@@ -288,7 +288,7 @@ The tagwise biological coefficient of variation (BCV) is the square root of the 
 plotBCV(d1)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/BCV%20plot-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/BCV%20plot-1.png" | absolute_url }})
 
 GLM Estimates of Dispersion
 ---------------------------
@@ -305,7 +305,7 @@ d2 <- estimateGLMTagwiseDisp(d2, design.mat)
 plotBCV(d2)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/GLM-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/GLM-1.png" | absolute_url }})
 
 Differential Expression
 -----------------------
@@ -346,7 +346,7 @@ plotSmear(et12, de.tags=de1tags12)
 abline(h = c(-2,2), col= "blue")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Differential%20Expression-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Differential%20Expression-1.png" | absolute_url }})
 
 GLM and Differential Expression
 -------------------------------
@@ -438,7 +438,7 @@ plotSmear(lrt12, de.tags=de2tags12)
 abline(h= c(-2,2), col="blue")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/GLM%20Diff%20Exp-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/GLM%20Diff%20Exp-1.png" | absolute_url }})
 
 Creating a Venn Diagram
 -----------------------
@@ -472,7 +472,7 @@ v
 vennDiagram(v)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Venn%20Diagram-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Venn%20Diagram-1.png" | absolute_url }})
 
 Creating a Heatmap logfc data
 =============================
@@ -493,7 +493,7 @@ hmz <- data.matrix(z)
 heatmap(hmz)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-1.png" | absolute_url }})
 
 ``` r
 #heatmap of counts
@@ -501,7 +501,7 @@ hm_matrix <- data.matrix(d$counts)
 heatmap(hm_matrix)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-2.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-2.png" | absolute_url }})
 
 ``` r
 lrt12 <- glmLRT(fit, contrast=c(1, -1, 0))
@@ -523,7 +523,7 @@ hm_lrt123 <- data.matrix(lrt123)
 heatmap(hm_lrt123)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-3.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/Heatmap-3.png" | absolute_url }})
 
 Reference: web.stanford.edu/class/bios221/labs/rnaseq/lab\_4\_rnaseq.html
 
@@ -749,13 +749,13 @@ The function plotMA shows the log2 fold changes attributable to a given variable
 plotMA(mobResMM, main="Log2 fold Change between WW and MM", ylim=c(-2,2))
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotMA-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotMA-1.png" | absolute_url }})
 
 ``` r
 plotMA(mobResWM, main="Log2 fold change between WW and WM", ylim=c(-2,2))
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotMA-2.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotMA-2.png" | absolute_url }})
 
 Plotcounts
 ==========
@@ -766,13 +766,13 @@ To examine the counts of reads for a single gene across the groups use *plotCoun
 plotCounts(ddsMob, gene=which.min(mobResMM$padj), intgroup="condition")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotcount-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotcount-1.png" | absolute_url }})
 
 ``` r
 plotCounts(ddsMob, gene=which.min(mobResWM$padj), intgroup="condition")
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotcount-2.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/plotcount-2.png" | absolute_url }})
 
 Heatmaps of Log2FC
 ------------------
@@ -789,7 +789,7 @@ combined_mobRes_matrix <- data.matrix(combined_mobRes)
 heatmap(combined_mobRes_matrix)
 ```
 
-![](BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/heatmaps-1.png)
+![]({{ "assets/BIO593_Gene_Exp_Workshop_FINAL_files/figure-markdown_github/heatmaps-1.png" | absolute_url }})
 
 Similarities and Differences between DESeq2 and edgeR, and which one should I choose?
 -------------------------------------------------------------------------------------
