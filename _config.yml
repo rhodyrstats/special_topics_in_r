@@ -17,9 +17,9 @@ author:
   name:           'rhodyRstats'
   url:            https://twitter.com/rhodyRstats
 
-#paginate:         5
-#paginate_path:    ''
-#                    # Or '/blog/page:num' if you want to move your index pages
+paginate:         5
+# paginate_path:    '/page:num'
+                    # Or '/blog/page:num' if you want to move your index pages
 
 plugins:
   - jekyll-feed
