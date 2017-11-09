@@ -1,0 +1,414 @@
+---
+title: "NOISeq for RNA differential analysis"
+author: "Eric Almeida, Dasith Perera, and Kevin Luczak"
+date: "October 27, 2017"
+output: md_document
+---
+
+```{r setup1, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Primer on RNA Sequencing
+
+RNA Sequencing is used to investigate the transcriptional profile of a cell
+
+Genome (DNA) -> Transcriptome (RNA) -> Protein
+
+RNA Transcripts are used to:
+
+- transcribe proteins
+- form the ribosomal translation machinery
+- regulate gene expression
+- modulate proteins
+
+## RNA can be sequenced using Next Generation Sequencing
+
+(Images not available)
+
+<!-- ![Sequencing by Synthesis](C:\Users\Kevin\Documents\R\workflow-diagram-truseq-targeted-rna-expression.png) -->
+
+? 2017 Illumina, Inc. All rights reserved.
+
+## Illumina sequencing-by-synthesis
+
+<!-- ![Sequencing by Synthesis](C:\Users\Kevin\Documents\R\introduction-to-second-generation-sequencing-6-728.jpg) -->
+
+## Example RNA-sequencing workflow 
+
+- Step 1. Experimental Design
+- Step 2. Library Preparation
+- Step 3. Execute the experiment 
+- Step 4. Align sequencing data to reference genome using BowTie2
+- Step 5. Obtain count data using htseq-count
+- Step 6. Move data into R and generate results
+
+## NOISeq Install from Bioconductor
+
+```{r,echo=FALSE, messages=FALSE, error=FALSE, warning=FALSE,include=FALSE}
+library(NOISeq)
+```
+
+```{r install, echo = TRUE, eval = FALSE, results='hide'}
+source("https://bioconductor.org/biocLite.R") #Downloading from Bioconductor 
+biocLite("NOISeq")
+library(NOISeq)
+```
+## Help Viewer in R
+
+Documentation and help can be easily accessed through the "? (command)" command
+
+In example:
+
+- ?head  # takes you to Help viewer for 'head' command
+
+- ?noiseq # takes you to Help viewer for noiseq package
+
+
+## View Input Data
+
+Load your data into R and make your own treatment groups
+
+```{r data, echo = TRUE}
+data(Marioni)
+head(mycounts) #Count data (data from upstream)
+head(myfactors) #Treatment groups / replicates as you define it
+myfactors = data.frame(Tissue = c("Kidney", "Liver", "Kidney", "Liver", "Liver", "Kidney", "Liver", "Kidney", "Liver", "Kidney"), TissueRun = c("Kidney_1", "Liver_1", "Kidney_1", "Liver_1", "Liver_1", "Kidney_1", "Liver_1",  "Kidney_2", "Liver_2", "Kidney_2"), Run = c(rep("R1", 7), rep("R2", 3)))
+myfactors #Should see the other defined treatment groups
+```
+
+## Additional Bioinformation, from Ensembl Biomart
+ 
+Provided for us in the Marioni data set, but easy to DIY. In example, first download the unique gene ID and biotype to a csv file from an online database that contains this information on your organism of study, then:
+```{r readin data, echo=TRUE}
+#GENES <- read.csv("C:/Users/labuser/Documents/R/GENES.txt")
+#GENES1 <- data.frame(GENES$'Gene.stable.ID')
+#GENES1$Gene.Type <- GENES$'Gene.type'
+#GENES2 <- unique(GENES1)
+#ID <- GENES2$'GENES.Gene.stable.ID'
+#TYPE <- GENES2$'Gene.Type'
+#BIOTYPES <- data.frame(TYPE)
+#row.names(BIOTYPES) <- GENES2$'GENES.Gene.stable.ID'
+```
+
+## Creating a NOISeq Object
+
+```{r makingobject, echo=TRUE}
+mydata <- readData(data = mycounts, length = mylength, gc = mygc, biotype = mybiotypes, chromosome = mychroms, factors = myfactors)
+mydata
+```
+
+## QC Plots
+
+Biases (error) are introduced through RNA extraction, library preparation, and sequencing processes
+
+Quality control tests offered by NOISeq:
+
+- Biotype detection
+- QC Bias
+- Length Bias
+- RNA composition
+
+## Biotype Detection
+
+- Used to quickly visualize potential contamination or technical biases introduced during library preparation
+
+```{r biotype, echo=TRUE}
+mybiodetection <- dat(mydata, k=0, type = "biodetection", factor = NULL)
+par(mfrow = c(1,2))
+explo.plot(mybiodetection, samples = c(1,2), plottype ="persample")
+```
+
+## Biotype Detection, output 2
+
+```{r biotype2, echo=TRUE}
+mybiodetection <- dat(mydata, k=0, type = "biodetection", factor = NULL)
+par(mfrow = c(1,2))
+explo.plot(mybiodetection, samples = c(1,2), toplot = "protein_coding", plottype ="comparison")
+```
+
+## Biotype Detection, output 3
+
+```{r biotype3, echo=TRUE}
+mycountsbio <- dat(mydata, factor = NULL, type = "countsbio")
+explo.plot(mycountsbio, toplot = 1, samples = 1, plottype ="boxplot")
+```
+
+## GC Bias 
+
+- Used to gauge whether sequencing bias has favored transcripts with low GC content
+
+```{r gc, echo=TRUE}
+myGCbias = dat(mydata, factor = "Tissue", type = "GCbias")
+explo.plot(myGCbias, samples = NULL, toplot = "global")
+```
+
+## Length Bias
+
+- Used to elucidate if bias is brought about by gene length
+
+```{r length, echo=TRUE}
+mylengthbias = dat(mydata, factor = "Tissue", type = "lengthbias")
+explo.plot(mylengthbias, samples = NULL, toplot ="global")
+```
+
+## Length Bias, output 2
+
+```{r length2, echo=TRUE}
+show(mylengthbias)
+```
+
+
+## RNA composition
+
+```{r RNAcomp, echo=TRUE}
+mycd = dat(mydata, type = "cd", norm = FALSE, refColumn = 1)
+explo.plot(mycd)
+```
+
+## Batch effect
+
+Here, we introduce a batch effect in example, and will later correct for it:
+
+```{r Batcheffect, echo=TRUE, results='hide'}
+set.seed(123)
+mycounts2 = mycounts 
+mycounts2[, 1:4] = mycounts2[, 1:4] 
+runif(nrow(mycounts2) * 4, 3, 5)
+myfactors = data.frame(myfactors, batch = c(rep(1, 4), rep(2, 6)))
+mydata2 = readData(mycounts2, factors = myfactors)
+myPCA = dat(mydata2, type = "PCA") 
+par(mfrow = c(1, 2)) 
+explo.plot(myPCA, factor = "Tissue") 
+explo.plot(myPCA, factor = "batch")
+```
+
+
+## Sequencing Depth
+
+A key question in RNA-Seq:
+
+- Are the number of sequencing reads enough to study our genome and to properly quantify feature expression?
+
+**Saturation plot**
+
+* How many features in the genome are being detected with more than a given number of counts, k (k=0 or k=5)
+
+* How the number of detected features would change with increasing sequencing depth
+       + For all features or for each biotype
+
+## Saturation plot
+
+```{r saturation, echo = TRUE}
+mysaturation = dat(mydata, k = 0, ndepth = 7, type = "saturation")
+explo.plot(mysaturation, toplot = 1, samples = 1:2, yleftlim = NULL, 
+yrightlim = NULL)
+```
+
+
+## Distribution of protein-coding genes of a specific biotype
+
+```{r prot_saturation, echo = TRUE}
+explo.plot(mysaturation, toplot="protein_coding", samples=1:4)
+```
+
+## Count distribution for all samples for a certain biotype
+
+```{r counts_proteincoding, echo = TRUE}
+explo.plot(mycountsbio, toplot = "protein_coding", samples = NULL, 
+plottype = "boxplot")
+```
+
+## Sensitivity plot
+```{r global_count, echo = TRUE}
+explo.plot(mycountsbio, toplot = 1, samples = NULL, plottype = "barplot")
+```
+
+## Filtering low counts
+
+* Excluding low counts generally improves differential expression results
+      + noise is reduced
+      
+* The best procedure to filter low count features is unknown
+* NOISeq proposes 3 different methods to filter out features with low counts:
+      1. CPM Method
+      2. Wilcoxon test
+      3. Proportion test
+      
+```{r filter, echo = TRUE}
+myfilt = filtered.data(mycounts, factor = myfactors$Tissue, norm = FALSE,
+depth = NULL, method = 1, cv.cutoff = 100, cpm = 1)
+```
+
+## Normalization
+- Necessary to analyze between samples and remove sequencing depth bias
+- Can normalize in RPKM, Upper Quartile, and TMM
+
+```{r normalization1, include=TRUE}
+myRPKM = rpkm(assayData(mydata)$exprs, long = mylength, k = 0, lc = 1)
+
+myUQUA = uqua(assayData(mydata)$exprs, long = mylength, lc = 0, k = 0)
+
+myTMM = tmm(assayData(mydata)$exprs, long = 1000, lc = 0)
+
+head(myRPKM)
+```
+
+## Normalization Cheat Sheet
+- long = Numeric vector containing the length of the features
+
+- k, Counts equal to 0 are changed to k in order to avoid indeterminations when applying logarithms. By default, k = 0
+
+- k = NULL, makes all zero values into a value between 0 and the lowest non-zero value.
+
+- lc = Correction factor for length normalization. This correction is done by dividing the counts vector by (length/1000)^lc^. If lc = 0, no length correction is applied. By default, lc = 1 for RPKM and lc = 0 for the other methods.
+
+
+## Batch Effect Correction
+- ARSyNseq filters the noise associated to identified or not identified batch effects considering the experimental design and applying Principal Component Analysis (PCA) to the analysis of variance (ANOVA) parameters and residuals.
+
+If the batch for each sample is known:
+```{r BATCHCORRECTION, include=TRUE}
+mydata2corr1 = ARSyNseq(mydata2, factor = "batch", batch = TRUE, norm = "rpkm", logtransf = FALSE)
+
+myPCA = dat(mydata2corr1, type = "PCA")
+
+par(mfrow = c(1, 2))
+
+explo.plot(myPCA, factor = "Tissue")
+
+explo.plot(myPCA, factor = "batch")
+```
+
+## Batch is unknown
+
+If the batch for each sample is unknown:
+
+```{r BATCHUNKNOWN, include=TRUE}
+mydata2corr2 = ARSyNseq(mydata2, factor = "Tissue", batch = FALSE, norm = "rpkm", logtransf = FALSE)
+
+myPCA = dat(mydata2corr2, type = "PCA")
+
+par(mfrow = c(1, 2))
+
+explo.plot(myPCA, factor = "Tissue")
+
+explo.plot(myPCA, factor = "batch")
+```
+
+
+##NOISeq options
+* Designed to compute differential expression on data:
+      
+      + With technical replicates (NOISeq-real)
+      + No replicates at all! (NOISeq-sim)
+      
+* NOISeq-real used when technical replicates are available. 
+      
+      + Summarizes by summing them up
+      
+* NOISeq-real can be used on Biological replicates
+      
+      + Averages replicates instead of summing.
+      + Manual recommends use of NOISeqBIO for biological replicates
+      
+##How NOISeq-real works- Summarized
+
+NOISeq-real estimates the probability distribution for M and D in an empirical way, by computing M and D values for every pair of replicates within the same experimental condition and for every feature. Then, all these values are pooled together to generate the noise distribution*
+
+M =  log2-ratio of the two conditions
+
+D = the value of the difference between conditions. 
+
+A feature is differentially expressed if its corresponding M and D values are likely to be higher than in noise. 
+
+Disclaimer: Biological replicates are necessary if the goal is to make any inference about the population. Deriving differential expression from technical replicates is useful for drawing conclusions about the specific samples being compared in the study but not for extending these conclusions to the whole population
+
+*When using NOISeq-real for biological values are averaged instead of summed up.
+
+##NOISeq-sim
+
+NOISeq can simulate technical replicates
+
+* Assumes that read counts follow a multinomial distribution
+
+* probabilities for each feature in the multinomial distribution are the probablility of a read to map onto that feature.
+
+* mapping probability are approximated by using counts in the only sample of the corresponding experimental condition. 
+
+
+
+##NOISeq-real & NOISeq-sim
+
+NOISeq-real
+
+```{r NOISeqreal, echo = TRUE}
+mynoiseq = noiseq(mydata, k= 0.5, norm = "rpkm", factor = "Tissue", pnr = 0.2, 
+nss = 5, v = 0.02, lc = 1, replicates = "technical")
+```
+
+NOISeq-sim
+```{r NOISeqsim, echo = TRUE}
+myresults <- noiseq(mydata, factor = "Tissue", k = NULL, norm = "n", pnr = 0.2, 
+nss = 5, v = 0.02, lc = 1, replicates = "no")
+```
+
+##NOISeqBIO
+Optimized for use on biological replicates (at least 2 per condition).
+
+Too much stats- see page 20 of NOISeq manual
+
+
+```{r NOISeqBIO, echo = TRUE}
+mynoiseqbio = noiseqbio(mydata, k = 0.5, norm = "rpkm", factor = "Tissue", 
+lc = 1, r = 20, adj = 1.5, plot = FALSE, a0per = 0.9, random.seed = 12345, 
+filter = 2)
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Results
+To look at the number of differentially expressed genes (DEGs):
+
+```{r DEG1, include=TRUE, eval = FALSE}
+mynoiseq.deg = degenes(mynoiseq, q = 0.8, M = NULL)
+
+mynoiseq.deg1 = degenes(mynoiseq, q = 0.8, M = "up")
+
+mynoiseq.deg2 = degenes(mynoiseq, q = 0.8, M = "down")
+
+## How to plot DEGs:
+DE.plot(mynoiseq, q = 0.9, graphic = "expr", log.scale = TRUE)
+
+DE.plot(mynoiseq, q = 0.8, graphic = "MD")
+
+DE.plot(mynoiseq, chromosomes = c(1, 2), log.scale = TRUE, join = FALSE, q = 0.8, graphic = "chrom")
+
+## DEG distribution across chromosome and biotypes
+DE.plot(mynoiseq, chromosomes = NULL, q = 0.8, graphic = "distr")
+
+## How to save images:
+pdf("manhattan.pdf", width = 12, height = 50)
+
+DE.plot(mynoiseq, chromosomes = c(1,2), log.scale = TRUE, join = FALSE, q = 0.8)
+
+dev.off()
+
+```
+
+
+
+
+
+
+
+
+## Works-cited
+```{r citation, echo=FALSE}
+citation("NOISeq")
+```
+
