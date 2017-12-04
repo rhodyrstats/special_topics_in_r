@@ -5,6 +5,7 @@ layout: post
 
 ## Analysis Using EdgeR
 
+#### Erin Roberts and Kevin Wong
 
 The Data
 --------
