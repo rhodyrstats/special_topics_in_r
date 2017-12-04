@@ -11,7 +11,7 @@ sidebar_link: true
 |2017-10-13| Gene Expression | Kevin W, Erin|
 |2017-10-27| Interpreting RNAseq data | Kevin L, Eric, Dasith|
 |2017-11-17| Something ecology / evolution | Eren|
-|2017-12-08| Visualizing Longitudinal Data| Dara, Byron |
+|2017-12-08| Visualizing Longitudinal Data| Byron |
 
 Other potential topics:  
 Quantitative Traits  
@@ -19,5 +19,5 @@ Phylogenetics
 Phylogenetic comparative methods  
 Multi-sample comparisons  
 Handling large datasets  
-Shiny Apps
+Shiny Apps  
 Analyzing Spatial Data
